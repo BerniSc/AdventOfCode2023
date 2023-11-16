@@ -1,6 +1,6 @@
 COMPILER = "g++"
 PROJECTNAME = test
-SOURCE = main.cpp aocHelper.cpp
+SOURCE = main.cpp aocHelper.cpp inputDataOperations.cpp
 FLAGS = -std=c++17 -pthread
 
 $(PROJECTNAME) : $(SOURCE)
