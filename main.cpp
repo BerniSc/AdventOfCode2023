@@ -5,7 +5,9 @@
 */
 TruncateString truncateString;
 RemoveDuplicates removeDuplicates;
+ClearEmptyRows clearEmptyRows;
 ReplaceString replaceString;
+ReplaceStringRegex replaceStringRegex;
 InsertString insertString;
 
 int main() {
@@ -30,7 +32,8 @@ int main() {
     // Insert the String "SE" on the second to last position and "FE" on the SECOND
     bernhard << insertString("SE", -2) << insertString("FE", 1);
 
-    otherTest << truncateString(-2, -4);
+    // Removes everthing from the first to the fifth to last Character, then removes everything that is not a digit and clear up the empty rows
+    otherTest << truncateString(0, -4) << replaceStringRegex("[^0-9]", "") << clearEmptyRows;
 
     // Prints out the modified InputData
     std::cout << bernhard << "\n OtherTest \n" << otherTest;

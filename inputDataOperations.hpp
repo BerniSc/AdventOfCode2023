@@ -8,6 +8,8 @@
 
 #include <unordered_set>    // For RemoveDuplicates
 #include <algorithm>        // For ReplaceString
+#include <regex>            // For ReplaceStringRegex
+#include <sstream>          // For ReplaceStringRegex
 
 // Interface for String operations
 struct InputDataOperation {
@@ -30,9 +32,16 @@ class RemoveDuplicates : public InputDataOperation {
         bool paragraphWide;
     public:
         RemoveDuplicates();
-        // optionaly set a reference to an out-var where the Indices of the Doubled Vars are stored
+        // Optionally set a reference to an out-var where the Indices of the Doubled Vars are stored
         RemoveDuplicates& operator()(std::vector<int>* positions, bool paragraphWide = true);
         // Use a Set to remove the Duplicate Elements
+        void performAction(std::vector<std::vector<std::string>>& data) override;
+};
+
+class ClearEmptyRows : public InputDataOperation {
+    private:
+    public:
+        ClearEmptyRows();
         void performAction(std::vector<std::vector<std::string>>& data) override;
 };
 
@@ -41,7 +50,19 @@ class ReplaceString : public InputDataOperation {
         std::string searchString, replaceString;
     public:
         ReplaceString();
+        // Takes in a regular String like 'hello' and replaces it with the replace String
         ReplaceString& operator()(const std::string searchString, const std::string replaceString);
+
+        void performAction(std::vector<std::vector<std::string>>& data) override;
+};
+
+class ReplaceStringRegex : public InputDataOperation {
+    private:
+        std::string regexSearchString, replaceString;
+    public:
+        ReplaceStringRegex();
+        // Takes in a regular Expression like [a-z] or [0-9] or [^a-z] and replaces it with the replace String 
+        ReplaceStringRegex& operator()(const std::string regexSearchString, const std::string replaceString);
 
         void performAction(std::vector<std::vector<std::string>>& data) override;
 };

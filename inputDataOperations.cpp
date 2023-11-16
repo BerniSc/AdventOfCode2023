@@ -33,7 +33,7 @@ void TruncateString::performAction(std::vector<std::vector<std::string>>& data) 
             if(adjustedStart >= stringLength || numCharsToRemove >= stringLength || adjustedStart < 0) {
                 continue;
             }
-            std::cout << adjustedStart << "     " << numCharsToRemove << "      " << stringLength << std::endl; 
+
             // Perform the erase operation
             string.erase(adjustedStart, numCharsToRemove);
         }
@@ -57,7 +57,7 @@ void RemoveDuplicates::performAction(std::vector<std::vector<std::string>>& data
     for(std::vector<std::string>& paragraph : data) {
         int iterator = 0;
         int formerIndex = 0;
-        while (iterator < paragraph.size()) {
+        while(iterator < paragraph.size()) {
             std::string& string = paragraph[iterator];
             iterator++;
             formerIndex++;
@@ -72,6 +72,26 @@ void RemoveDuplicates::performAction(std::vector<std::vector<std::string>>& data
         }
         if(!this->paragraphWide)
             uniqueElements.clear();
+    }
+}
+
+ClearEmptyRows::ClearEmptyRows() {
+
+}
+
+void ClearEmptyRows::performAction(std::vector<std::vector<std::string>>& data) {
+    for(std::vector<std::string>& paragraph : data) {
+        int iterator = 0;
+
+        while(iterator < paragraph.size()) {
+            std::string& string = paragraph[iterator];
+            iterator++;
+
+            if(string == "") {
+                paragraph.erase(paragraph.begin() + iterator - 1);
+                iterator--;
+            }
+        }
     }
 }
 
@@ -95,6 +115,28 @@ void ReplaceString::performAction(std::vector<std::vector<std::string>>& data) {
                 string.replace(pos, searchString.length(), replaceString);
                 pos += replaceString.length();
             }
+        }
+    }
+}
+
+ReplaceStringRegex::ReplaceStringRegex() {
+
+}
+
+ReplaceStringRegex& ReplaceStringRegex::operator()(const std::string regexSearchString, const std::string replaceString) {
+    this->regexSearchString = regexSearchString;
+    this->replaceString = replaceString;
+    return *this;
+}
+
+void ReplaceStringRegex::performAction(std::vector<std::vector<std::string>>& data) {
+    const std::regex regex(this->regexSearchString);
+
+    for(std::vector<std::string>& paragraph : data) {
+        for(std::string& string : paragraph) {
+            std::stringstream _string;
+            std::regex_replace(std::ostream_iterator<char>(_string), string.begin(), string.end(), regex, replaceString);
+            string = _string.str();
         }
     }
 }
