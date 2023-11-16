@@ -7,6 +7,9 @@
 
 #include <iostream>
 
+#include <unordered_set>    // For RemoveDuplicates
+#include <algorithm>        // For ReplaceString
+
 // Interface for String operations
 struct InputDataOperation {
     virtual void performAction(std::vector<std::vector<std::string>>&) = 0;
@@ -25,7 +28,8 @@ class InputData {
         // Function for Chaining Operations together using Pipelike functionality
         InputData& operator<<(InputDataOperation*);
 
-        void operator>>(std::vector<std::vector<std::string>>);
+        // Write out the Data to a Vector
+        void operator>>(std::vector<std::vector<std::string>>&);
 
         friend std::ostream& operator<<(std::ostream& ostream, const InputData& data);
 
@@ -36,17 +40,19 @@ class TruncateString : public InputDataOperation {
         int start, stop;
     public:
         TruncateString();
+        // Accepts the Indicies of the Chars to delete, f.e. (0,1) delets first char, (-1,-2) deletes last char
         TruncateString& operator()(int start, int stop);
         void performAction(std::vector<std::vector<std::string>>& data) override;
 };
 
 class RemoveDuplicates : public InputDataOperation {
     private:
-        std::vector<int>& positions;
+        std::vector<int>* positions;
+        bool paragraphWide;
     public:
         RemoveDuplicates();
         // optionaly set a reference to an out-var where the Indices of the Doubled Vars are stored
-        RemoveDuplicates& operator()(std::vector<int>& positions);
+        RemoveDuplicates& operator()(std::vector<int>& positions, bool paragraphWide = true);
         // Use a Set to remove the Duplicate Elements
         void performAction(std::vector<std::vector<std::string>>& data) override;
 };
