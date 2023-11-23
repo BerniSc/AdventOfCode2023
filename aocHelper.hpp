@@ -17,6 +17,7 @@ class InputData {
         const int mode;
 
         std::vector<std::vector<std::string>> data;
+
     public:
         InputData(const int mode);
 

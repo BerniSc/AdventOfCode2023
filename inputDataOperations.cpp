@@ -163,3 +163,33 @@ void InsertString::performAction(std::vector<std::vector<std::string>>& data) {
         }
     }
 }
+
+TokenizeData::TokenizeData() : tokenizedData(nullptr) {
+    
+}
+
+TokenizeData& TokenizeData::operator()(std::vector<std::vector<std::vector<std::string>>>* tokenizedData, const std::string tokenizeRegex) {
+    this->tokenizeRegex = tokenizeRegex;
+    this->tokenizedData = tokenizedData;
+    return *this;
+}
+
+void TokenizeData::performAction(std::vector<std::vector<std::string>>& data) {
+    if(tokenizedData == nullptr)
+        return;
+
+    const std::regex regex(this->tokenizeRegex);
+
+    for(std::vector<std::string>& paragraph : data) {
+        std::vector<std::vector<std::string>> tmpParagraph;
+        for(std::string& string : paragraph) {
+            // Iterate over the String and tokenize on Regex
+            std::sregex_token_iterator iter(string.begin(), string.end(), regex, -1);
+            std::sregex_token_iterator end;
+
+            std::vector<std::string> tmp(iter, end);
+            tmpParagraph.push_back(tmp);
+        }
+        this->tokenizedData->push_back(tmpParagraph);
+    }
+}

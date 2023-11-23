@@ -78,4 +78,17 @@ class InsertString : public InputDataOperation {
         void performAction(std::vector<std::vector<std::string>>& data) override;
 };
 
+class TokenizeData : public InputDataOperation {
+    private:
+        std::string tokenizeRegex;
+
+        std::vector<std::vector<std::vector<std::string>>>* tokenizedData;
+    public:
+        TokenizeData();
+        // Default Param for Tokenize Regex is whitespace
+        TokenizeData& operator()(std::vector<std::vector<std::vector<std::string>>>* tokenizedData, const std::string tokenizeRegex = "\\s+");
+
+        void performAction(std::vector<std::vector<std::string>>& data) override;
+};
+
 #endif
