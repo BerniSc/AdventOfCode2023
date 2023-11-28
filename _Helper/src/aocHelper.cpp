@@ -37,6 +37,10 @@ InputData& InputData::operator<<(InputDataOperation& operation) {
     return *this;
 }
 
+void InputData::operator>>(std::vector<std::vector<std::string>>& rhs) {
+    rhs = this->data;
+}
+
 std::ostream& operator<<(std::ostream& ostream, const InputData& data) {
     for(std::vector<std::string> paragraph : data.data) {
         for(std::string string : paragraph) {

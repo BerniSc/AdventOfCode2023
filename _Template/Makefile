@@ -2,6 +2,7 @@ COMPILER = "g++"
 PROJECTNAME = aoc_solution
 INCLUDE_HELPER = ../_Helper/inc/
 SOURCE_HELPER = ../_Helper/src/aocHelper.cpp ../_Helper/src/inputDataOperations.cpp
+# Add your own Sources here as needed
 SOURCE = main.cpp $(SOURCE_HELPER)
 FLAGS = -std=c++17 -pthread
 
@@ -10,7 +11,7 @@ $(PROJECTNAME) : $(SOURCE)
 
 .PHONY: clean run
 clean:
-		rm ./$(aoc_solution)
+		rm ./$(PROJECTNAME)
 
 run:
-        ./$(PROJECTNAME)
+		./$(PROJECTNAME)
